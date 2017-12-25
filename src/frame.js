@@ -40,4 +40,17 @@ export default class Frame {
   score() {
     return this.firstScore() + (this.secondScore() || 0)
   }
+
+  valid() {
+    if(this.isStrike()) return !this.secondScore()
+    if(this.first === "/") return false
+
+    return (this.firstScore() + this.secondScore()) <= 10
+  }
+
+  incomplete() {
+    if (this.isStrike()) return false
+
+    return this.secondScore() === null
+  }
 }

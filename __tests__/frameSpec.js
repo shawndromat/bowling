@@ -51,4 +51,38 @@ describe("Frame", () => {
       expect(frame.isStrike()).toEqual(true)
     })
   })
+
+  describe("#valid", () => {
+    it("returns true when single roll is a strike", () => {
+      expect(new Frame("X").valid()).toEqual(true)
+    })
+
+    it("returns false when rolls add up to more than 10", () => {
+      expect(new Frame("67").valid()).toEqual(false)
+      expect(new Frame("X3").valid()).toEqual(false)
+      expect(new Frame("3X").valid()).toEqual(false)
+    })
+
+    it("returns false when spare is in the wrong place", () => {
+      expect(new Frame("/7").valid()).toEqual(false)
+      expect(new Frame("/").valid()).toEqual(false)
+    })
+  })
+
+  describe("#incomplete", () => {
+    it("returns false when there are two rolls", () => {
+      expect(new Frame("11").incomplete()).toEqual(false)
+      expect(new Frame("--").incomplete()).toEqual(false)
+      expect(new Frame("6/").incomplete()).toEqual(false)
+    })
+
+    it("returns true when single roll is not a strike or spare", () => {
+      expect(new Frame("1").incomplete()).toEqual(true)
+      expect(new Frame("-").incomplete()).toEqual(true)
+    })
+
+    it("returns false when single roll is a strike", () => {
+      expect(new Frame("X").incomplete()).toEqual(false)
+    })
+  })
 })
